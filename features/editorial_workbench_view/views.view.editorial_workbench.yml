@@ -1,0 +1,121 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - content_moderation
+id: editorial_workbench
+label: 'Editorial Workbench'
+module: views
+description: 'Workbench for editors to manage moderated content.'
+tag: ''
+base_table: node_field_data
+core: 10.x
+display:
+  default:
+    display_plugin: default
+    id: default
+    display_title: Master
+    position: 0
+    display_options:
+      access:
+        type: role
+        options:
+          role_editor: 'editor'
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          value: 1
+          plugin_id: boolean
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          value:
+            - article
+          plugin_id: in
+        moderation_state:
+          id: moderation_state
+          table: content_moderation_state_field_data
+          field: moderation_state
+          expose:
+            operator_id: ''
+            label: 'Moderation State'
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: moderation_state
+            required: false
+            multiple: false
+          plugin_id: string
+      fields:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          label: 'Title'
+          plugin_id: field
+        uid:
+          id: uid
+          table: node_field_data
+          field: uid
+          label: 'Author'
+          plugin_id: field
+        changed:
+          id: changed
+          table: node_field_data
+          field: changed
+          label: 'Updated'
+          plugin_id: field
+        moderation_state:
+          id: moderation_state
+          table: content_moderation_state_field_data
+          field: moderation_state
+          label: 'State'
+          plugin_id: field
+        operations:
+          id: operations
+          table: node
+          field: operations
+          label: 'Operations'
+          plugin_id: field
+      style:
+        type: table
+      pager:
+        type: some
+        options:
+          items_per_page: 25
+  moderation:
+    display_plugin: page
+    id: moderation
+    display_title: Moderation
+    position: 1
+    display_options:
+      path: editor/workbench/moderation
+      menu:
+        type: normal
+        title: 'Moderation Queue'
+        description: ''
+        weight: 0
+  archived:
+    display_plugin: page
+    id: archived
+    display_title: Archived
+    position: 2
+    display_options:
+      path: editor/workbench/archived
+      filters:
+        moderation_state:
+          id: moderation_state
+          table: content_moderation_state_field_data
+          field: moderation_state
+          value:
+            - archived
+          plugin_id: string
+      menu:
+        type: normal
+        title: 'Archived Content'
+        description: ''
+        weight: 1

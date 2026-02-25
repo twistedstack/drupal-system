@@ -1,0 +1,96 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+
+const AUTHOR_OVERRIDE_FIELD = 'field_author_override';
+
+function _author_override_is_allowed_bundle(NodeInterface $node): bool {
+  $allowed = \Drupal::config('author_override.settings')->get('allowed_bundles') ?: [];
+  return in_array($node->bundle(), $allowed, TRUE);
+}
+
+function author_override_form_node_form_alter(array &$form, FormStateInterface $form_state, $form_id): void {
+  $config = \Drupal::config('author_override.settings');
+  $node = $form_state->getFormObject()->getEntity();
+  if (!$node instanceof NodeInterface) return;
+
+  if ($config->get('hide_core_authoring_for_non_admin') && !\Drupal::currentUser()->hasPermission('administer nodes')) {
+    if (isset($form['uid'])) $form['uid']['#access'] = FALSE;
+    if (isset($form['author'])) $form['author']['#access'] = FALSE;
+  }
+
+  if (!$node->hasField(AUTHOR_OVERRIDE_FIELD) || !_author_override_is_allowed_bundle($node)) return;
+
+  if ($config->get('show_use_original_checkbox')) {
+    $owner_id = $node->getOwnerId();
+    $override = $node->get(AUTHOR_OVERRIDE_FIELD)->target_id ?? NULL;
+    $default = !$override || (int) $override === (int) $owner_id;
+
+    $form['author_override_use_original'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Use original author'),
+      '#default_value' => $default,
+      '#weight' => -10,
+    ];
+
+    if (isset($form[AUTHOR_OVERRIDE_FIELD])) {
+      $form[AUTHOR_OVERRIDE_FIELD]['#states']['visible'][] =
+        [':input[name="author_override_use_original"]' => ['checked' => FALSE]];
+    }
+
+    $form['actions']['submit']['#submit'][] = 'author_override_node_form_submit_use_original';
+  }
+}
+
+function author_override_node_form_submit_use_original(array &$form, FormStateInterface $form_state): void {
+  $node = $form_state->getFormObject()->getEntity();
+  if ($node instanceof NodeInterface && $node->hasField(AUTHOR_OVERRIDE_FIELD)) {
+    if ($form_state->getValue('author_override_use_original')) {
+      $node->set(AUTHOR_OVERRIDE_FIELD, ['target_id' => $node->getOwnerId()]);
+    }
+  }
+}
+
+function author_override_entity_presave(EntityInterface $entity): void {
+  if (!$entity instanceof NodeInterface) return;
+  if (!$entity->hasField(AUTHOR_OVERRIDE_FIELD)) return;
+  if (!_author_override_is_allowed_bundle($entity)) return;
+
+  $c = \Drupal::config('author_override.settings');
+  $owner = (int)$entity->getOwnerId();
+  $field = $entity->get(AUTHOR_OVERRIDE_FIELD);
+
+  if ($field->isEmpty()) {
+    if ($entity->isNew() && $c->get('autofill_on_create')) $entity->set(AUTHOR_OVERRIDE_FIELD, ['target_id' => $owner]);
+    elseif (!$entity->isNew() && $c->get('autofill_on_edit')) $entity->set(AUTHOR_OVERRIDE_FIELD, ['target_id' => $owner]);
+  }
+
+  $override = (int)($entity->get(AUTHOR_OVERRIDE_FIELD)->target_id ?? 0);
+
+  if ($c->get('apply_override_changes_owner') && $override && $override !== $owner) {
+    $entity->setOwnerId($override);
+    if ($c->get('clear_override_after_apply')) $entity->set(AUTHOR_OVERRIDE_FIELD, NULL);
+    if ($c->get('update_created_time_on_apply')) $entity->setCreatedTime(\Drupal::time()->getRequestTime());
+  }
+
+  if ($c->get('sync_on_author_change') && !$entity->isNew() && isset($entity->original)) {
+    $old = (int)$entity->original->getOwnerId();
+    $new = (int)$entity->getOwnerId();
+    if ($old !== $new && !$entity->get(AUTHOR_OVERRIDE_FIELD)->isEmpty()) {
+      if ((int)$entity->get(AUTHOR_OVERRIDE_FIELD)->target_id === $old) {
+        $entity->set(AUTHOR_OVERRIDE_FIELD, ['target_id' => $new]);
+      }
+    }
+  }
+}
+
+function author_override_preprocess_node(array &$variables): void {
+  $node = $variables['node'] ?? NULL;
+  if ($node instanceof NodeInterface) {
+    $variables['effective_author'] = \Drupal::service('author_override.author_resolver')->getEffectiveAuthor($node);
+  }
+}

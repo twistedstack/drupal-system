@@ -1,0 +1,12 @@
+<?php
+
+use Drupal\Core\CronInterface;
+
+/**
+ * Implements hook_cron().
+ */
+function auto_archive_plus_cron() {
+  /** @var \Drupal\auto_archive_plus\Service\AutoArchiveService $service */
+  $service = \Drupal::service('auto_archive_plus.service');
+  $service->processAutoArchive();
+}

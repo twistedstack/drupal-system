@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Custom 403 template for unpublished or archived nodes.
+ *
+ * Variables:
+ * - node_title
+ * - is_archived
+ * - is_unpub
+ */
+#}
+
+<section class="layout-container">
+  <h1>Sorry, that page isn’t available</h1>
+
+  {% if is_archived %}
+    <p>The content “<strong>{{ node_title }}</strong>” has been <em>archived</em> and is no longer available.</p>
+  {% elseif is_unpub %}
+    <p>The content “<strong>{{ node_title }}</strong>” is not published.</p>
+  {% endif %}
+
+  <p>You might try:</p>
+  <ul class="suggestions">
+    <li><a href="{{ path('<front>') }}">Return to the front page</a></li>
+    <li><a href="{{ path('view.content.page_1') }}">Browse other content</a></li>
+  </ul>
+</section>

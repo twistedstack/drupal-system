@@ -1,0 +1,9 @@
+name: 'Auto Archive+'
+type: module
+description: 'Automatically archives nodes based on age and content type.'
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:node
+  - drupal:views
+

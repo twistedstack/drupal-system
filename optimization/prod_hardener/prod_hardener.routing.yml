@@ -1,0 +1,7 @@
+prod_hardener.settings:
+  path: '/admin/config/development/prod-hardener'
+  defaults:
+    _form: '\Drupal\prod_hardener\Form\ProdHardenerSettingsForm'
+    _title: 'Prod Hardener'
+  requirements:
+    _permission: 'administer site configuration'

@@ -1,0 +1,7 @@
+name: 'Add Content Dropdown Block'
+type: module
+description: 'Displays a role-aware, configurable Add Content dropdown block.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - node

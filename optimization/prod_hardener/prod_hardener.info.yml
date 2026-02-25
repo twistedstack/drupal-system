@@ -1,0 +1,6 @@
+name: Prod Hardener
+type: module
+description: "Automatically disables development modules and tightens performance settings on production."
+core_version_requirement: ^10 || ^11
+package: "Performance"
+version: 1.0.0

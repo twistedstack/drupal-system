@@ -1,0 +1,7 @@
+tool_settings.settings:
+  path: '/admin/config/content/tool-settings'
+  defaults:
+    _form: '\Drupal\\tool_settings\\Form\\ToolSettingsForm'
+    _title: 'Tool Settings'
+  requirements:
+    _permission: 'administer site configuration'

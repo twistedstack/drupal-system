@@ -1,0 +1,4 @@
+services:
+  author_override.author_resolver:
+    class: Drupal\author_override\AuthorResolver
+    arguments: ['@entity_type.manager']

@@ -1,0 +1,6 @@
+tool_settings.settings:
+  title: 'Tool Settings'
+  description: 'Configure settings for Tool content type.'
+  parent: system.admin_config_content
+  route_name: tool_settings.settings
+  weight: 100

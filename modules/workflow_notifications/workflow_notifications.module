@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * @file
+ * Workflow Notifications module.
+ */
+
+use Drupal\Core\Render\Markup;
+use Drupal\node\NodeInterface;
+use Drupal\message\Entity\Message;
+
+/**
+ * Implements hook_entity_update().
+ */
+function workflow_notifications_entity_update(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity instanceof NodeInterface && $entity->hasField('moderation_state')) {
+    $moderation_field = $entity->get('moderation_state');
+    $state = $moderation_field->value;
+
+    // Track original state.
+    $original = $entity->original ?? NULL;
+    $old_state = $original ? $original->get('moderation_state')->value : NULL;
+
+    // Only notify on state change to published or archived.
+    if ($state !== $old_state && in_array($state, ['published', 'archived'])) {
+      $config = \Drupal::config('workflow_notifications.settings');
+      $emails = [];
+      $users_to_notify = [];
+
+      // Static addresses.
+      $static = $config->get('recipients_static');
+      if (!empty($static)) {
+        $emails = array_merge($emails, array_map('trim', explode(',', $static)));
+      }
+
+      // Role-based addresses.
+      $roles = $config->get('recipients_roles') ?: [];
+      if (!empty($roles)) {
+        $user_storage = \Drupal::entityTypeManager()->getStorage('user');
+        $uids = $user_storage->getQuery()
+          ->condition('status', 1)
+          ->condition('roles', array_filter($roles), 'IN')
+          ->execute();
+
+        if (!empty($uids)) {
+          foreach ($user_storage->loadMultiple($uids) as $user) {
+            if ($user->getEmail()) {
+              $emails[] = $user->getEmail();
+            }
+            $users_to_notify[] = $user;
+          }
+        }
+      }
+
+      $emails = array_unique($emails);
+
+      // Email notifications.
+      if (!empty($emails)) {
+        $mailManager = \Drupal::service('plugin.manager.mail');
+        $module = 'workflow_notifications';
+        $key = 'state_change';
+        $langcode = \Drupal::currentUser()->getPreferredLangcode();
+
+        $params['subject'] = t('Content moved to @state: @title', [
+          '@state' => ucfirst($state),
+          '@title' => $entity->label(),
+        ]);
+
+        $params['message'] = Markup::create(t('The content "<strong>@title</strong>" has been moved to <em>@state</em>.', [
+          '@title' => $entity->label(),
+          '@state' => ucfirst($state),
+        ]));
+
+        foreach ($emails as $to) {
+          $mailManager->mail($module, $key, $to, $langcode, $params);
+        }
+      }
+
+      // Internal Message notifications.
+      if (!empty($users_to_notify)) {
+        foreach ($users_to_notify as $user) {
+          $message = Message::create([
+            'template' => 'workflow_state_change',
+            'uid' => $user->id(),
+            'arguments' => [
+              'title' => $entity->label(),
+              'state' => ucfirst($state),
+              'url' => $entity->toUrl()->toString(),
+            ],
+          ]);
+          $message->save();
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_mail().
+ */
+function workflow_notifications_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'state_change':
+      $message['subject'] = $params['subject'];
+      $message['body'][] = strip_tags($params['message']);
+      break;
+  }
+}

@@ -1,0 +1,6 @@
+bulk_taxonomy_update.form:
+  title: 'Bulk Taxonomy Update'
+  description: 'Bulk set/append/remove taxonomy term(s) on nodes by content type, with filters.'
+  route_name: bulk_taxonomy_update.form
+  parent: system.admin_content
+  weight: 50

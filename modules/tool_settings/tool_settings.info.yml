@@ -1,0 +1,5 @@
+name: 'Tool Settings'
+type: module
+description: 'Adds config page for Tool content type.'
+core_version_requirement: ^10 || ^11
+package: Custom

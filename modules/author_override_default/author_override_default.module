@@ -1,0 +1,49 @@
+
+<?php
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_entity_presave().
+ */
+function author_override_default_entity_presave(EntityInterface $entity) {
+  if (!$entity instanceof NodeInterface) {
+    return;
+  }
+  $config = \Drupal::config('author_override_default.settings');
+  $field_name = $config->get('field_name') ?? 'field_author_override';
+  $bundles = $config->get('bundles') ?? [];
+
+  /** @var \Drupal\author_override_default\AuthorOverrideDefaultSetter $setter */
+  $setter = \Drupal::service('author_override_default.setter');
+
+  if ($setter->appliesToBundle($entity->bundle(), $bundles)) {
+    $setter->applyPresave($entity, $field_name);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function author_override_default_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if (!(strpos($form_id, 'node_') === 0 && substr($form_id, -5) === '_form')) {
+    return;
+  }
+
+  $config = \Drupal::config('author_override_default.settings');
+  $field_name = $config->get('field_name') ?? 'field_author_override';
+  $bundles = $config->get('bundles') ?? [];
+
+  $node = $form['#node'] ?? NULL;
+  if (!$node instanceof NodeInterface) {
+    return;
+  }
+
+  /** @var \Drupal\author_override_default\AuthorOverrideDefaultSetter $setter */
+  $setter = \Drupal::service('author_override_default.setter');
+
+  if ($setter->appliesToBundle($node->bundle(), $bundles)) {
+    $setter->applyFormDefault($form, $field_name);
+  }
+}

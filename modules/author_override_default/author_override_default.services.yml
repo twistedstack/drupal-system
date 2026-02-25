@@ -1,0 +1,6 @@
+
+services:
+  author_override_default.setter:
+    class: Drupal\author_override_default\AuthorOverrideDefaultSetter
+    arguments: ['@current_user', '@entity_type.manager']
+    public: true

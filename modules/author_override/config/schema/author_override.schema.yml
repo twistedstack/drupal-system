@@ -1,0 +1,33 @@
+author_override.settings:
+  type: config_object
+  label: 'Author Override settings'
+  mapping:
+    allowed_bundles:
+      type: sequence
+      label: 'Allowed node bundles'
+      sequence:
+        type: string
+    autofill_on_create:
+      type: boolean
+      label: 'Auto-fill override on node creation'
+    autofill_on_edit:
+      type: boolean
+      label: 'Auto-fill override on node edit (when empty)'
+    sync_on_author_change:
+      type: boolean
+      label: 'Sync override when owner changes (only if override matched old owner)'
+    show_use_original_checkbox:
+      type: boolean
+      label: 'Show "Use original author" checkbox'
+    apply_override_changes_owner:
+      type: boolean
+      label: 'Apply override by changing node owner on save'
+    clear_override_after_apply:
+      type: boolean
+      label: 'After owner apply, clear the override field'
+    update_created_time_on_apply:
+      type: boolean
+      label: 'After owner apply, set created time to now'
+    hide_core_authoring_for_non_admin:
+      type: boolean
+      label: 'Hide core "Authored by" controls for non-admin users'

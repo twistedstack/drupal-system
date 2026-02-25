@@ -1,0 +1,16 @@
+archive_request.flag:
+  path: '/node/{node}/archive-request'
+  defaults:
+    _controller: '\Drupal\archive_request\Controller\ArchiveRequestController::requestArchive'
+    _title: 'Request Archive'
+  requirements:
+    _permission: 'request archive content'
+    node: \d+
+
+archive_request.dashboard:
+  path: '/admin/dashboard/archive-requests'
+  defaults:
+    _controller: '\Drupal\archive_request\Controller\DashboardController::dashboard'
+    _title: 'Archive Requests'
+  requirements:
+    _permission: 'request archive content'

@@ -1,0 +1,13 @@
+administer auto archive plus:
+  title: 'Administer Auto Archive+'
+  description: 'Configure Auto Archive+ settings and thresholds.'
+  restrict access: true
+
+run auto archive plus:
+  title: 'Run Auto Archive+ manually'
+  description: 'Allows users to run the auto-archive process immediately from the settings page.'
+
+view auto archive plus log:
+  title: 'View Auto Archive Log'
+  description: 'Allows users to view the Auto Archive Log page'
+  restrict access: true

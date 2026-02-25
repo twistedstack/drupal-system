@@ -1,0 +1,9 @@
+services:
+  prod_hardener.subscriber:
+    class: Drupal\prod_hardener\EventSubscriber\ProdHardenerSubscriber
+    arguments: ['@config.factory', '@module_installer', '@state', '@logger.channel.prod_hardener']
+    tags:
+      - { name: event_subscriber }
+  logger.channel.prod_hardener:
+    parent: logger.channel_base
+    arguments: ['prod_hardener']

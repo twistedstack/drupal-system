@@ -1,0 +1,81 @@
+
+langcode: en
+status: true
+dependencies:
+  module:
+    - auto_archive_plus
+id: auto_archive_log_view
+label: 'Auto Archive Log'
+module: views
+description: 'Displays a table of all auto-archived nodes.'
+tag: ''
+base_table: auto_archive_log
+base_field: id
+core: 10.x
+display:
+  default:
+    display_plugin: default
+    id: default
+    display_title: Master
+    position: 0
+    display_options:
+      access:
+        type: permission
+        options:
+          permission: 'view auto archive plus log'
+      cache:
+        type: none
+      query:
+        type: views_query
+      exposed_form:
+        type: basic
+      pager:
+        type: some
+        options:
+          items_per_page: 50
+      style:
+        type: table
+        options:
+          group_column: ''
+          sticky: false
+          default_sort_order: asc
+          default_sort_field: id
+      fields:
+        id:
+          id: id
+          table: auto_archive_log
+          field: id
+          label: 'ID'
+        node_id:
+          id: node_id
+          table: auto_archive_log
+          field: node_id
+          label: 'Node ID'
+        title:
+          id: title
+          table: auto_archive_log
+          field: title
+          label: 'Title'
+        type:
+          id: type
+          table: auto_archive_log
+          field: type
+          label: 'Content Type'
+        archived:
+          id: archived
+          table: auto_archive_log
+          field: archived
+          label: 'Archived Date'
+  page_1:
+    display_plugin: page
+    id: page_1
+    display_title: 'Page'
+    position: 1
+    display_options:
+      path: '/admin/content/auto-archive-log'
+      menu:
+        type: menu_normal
+        title: 'Auto Archive Log'
+        name: system.admin_content
+        weight: 110
+        parent: system.admin_content

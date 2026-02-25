@@ -1,0 +1,8 @@
+name: Workflow Notifications
+type: module
+description: 'Sends email and internal message notifications when content is published or archived.'
+core_version_requirement: ^10.5.2 || ^11
+package: Content Moderation
+dependencies:
+  - drupal:content_moderation
+  - drupal:message

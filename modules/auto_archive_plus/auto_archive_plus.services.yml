@@ -1,0 +1,13 @@
+services:
+  logger.channel.auto_archive_plus:
+    parent: logger.channel_base
+    arguments: ['auto_archive_plus']
+
+  auto_archive_plus.service:
+    class: Drupal\auto_archive_plus\Service\AutoArchiveService
+    arguments:
+      - '@entity_type.manager'
+      - '@config.factory'
+      - '@logger.channel.auto_archive_plus'
+      - '@messenger'
+      - '@plugin.manager.mail'

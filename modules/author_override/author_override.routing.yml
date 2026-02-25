@@ -1,0 +1,7 @@
+author_override.settings:
+  path: '/admin/config/content/author-override'
+  defaults:
+    _form: '\Drupal\author_override\Form\AuthorOverrideSettingsForm'
+    _title: 'Author Override'
+  requirements:
+    _permission: 'administer site configuration'

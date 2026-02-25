@@ -1,0 +1,5 @@
+name: Bulk Taxonomy Update (Plus)
+type: module
+description: Bulk update taxonomy term reference fields on nodes, with filters for moderation state, author, and Workbench Section.
+core_version_requirement: ^10 || ^11
+package: Custom

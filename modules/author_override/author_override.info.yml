@@ -1,0 +1,5 @@
+name: Author Override
+type: module
+description: Single author override field with owner-apply, autofill, sync, and UI controls.
+package: Custom
+core_version_requirement: ^10 || ^11

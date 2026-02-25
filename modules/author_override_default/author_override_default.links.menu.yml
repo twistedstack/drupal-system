@@ -1,0 +1,7 @@
+
+author_override_default.settings:
+  title: 'Author Override Default'
+  description: 'Configure which field and bundles to apply the default to.'
+  route_name: author_override_default.settings
+  parent: system.admin_config_content
+  weight: 100

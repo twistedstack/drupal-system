@@ -1,0 +1,19 @@
+custom_toolbar.dashboard_tabs:
+  route_name: custom_toolbar.dashboard
+  base_route: custom_toolbar.dashboard
+  title: 'Dashboard'
+
+custom_toolbar.drafts_tab:
+  route_name: custom_toolbar.dashboard.drafts
+  base_route: custom_toolbar.dashboard
+  title: 'My Drafts'
+
+custom_toolbar.review_tab:
+  route_name: custom_toolbar.dashboard.review
+  base_route: custom_toolbar.dashboard
+  title: 'For Review'
+
+custom_toolbar.archive_tab:
+  route_name: custom_toolbar.dashboard.archive
+  base_route: custom_toolbar.dashboard
+  title: 'Archive Requests'

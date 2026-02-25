@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Prod Hardener module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Config\ConfigFactoryInterface;
+
+/**
+ * Implements hook_help().
+ */
+function prod_hardener_help($route_name, \Drupal\Core\Routing\RouteMatchInterface $route_match) {
+  if ($route_name === 'help.page.prod_hardener') {
+    return t('Prod Hardener helps keep production clean by disabling dev modules and enforcing performance settings.');
+  }
+}

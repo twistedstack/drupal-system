@@ -1,0 +1,8 @@
+langcode: en
+status: true
+template: workflow_state_change
+label: 'Workflow State Change'
+description: 'Notification when content is published or archived.'
+text:
+  - 'The content "@title" has been moved to @state.'
+  - 'View it: @url'

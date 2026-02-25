@@ -1,0 +1,16 @@
+auto_archive_plus.settings:
+  path: '/admin/config/content/auto-archive-plus'
+  defaults:
+    _form: '\Drupal\auto_archive_plus\Form\AutoArchiveSettingsForm'
+    _title: 'Auto Archive+ Settings'
+  requirements:
+    _permission: 'administer auto archive plus'
+
+auto_archive_plus.log:
+  path: '/admin/content/auto-archive-log'
+  defaults:
+    _entity_list: 'auto_archive_log'
+    _title: 'Auto Archive Log'
+  requirements:
+    _permission: 'view auto archive plus log'
+

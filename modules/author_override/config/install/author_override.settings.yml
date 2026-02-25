@@ -1,0 +1,9 @@
+allowed_bundles: { }
+autofill_on_create: true
+autofill_on_edit: false
+sync_on_author_change: true
+show_use_original_checkbox: true
+apply_override_changes_owner: true
+clear_override_after_apply: false
+update_created_time_on_apply: false
+hide_core_authoring_for_non_admin: false

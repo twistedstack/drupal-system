@@ -1,0 +1,37 @@
+# .acquia-pipelines.yml
+# Basic quality gates for Drupal with Composer projects.
+version: 1.0.0
+services:
+  - mariadb:10.6
+  - varnish:6.0
+variables:
+  COMPOSER_ALLOW_SUPERUSER: 1
+  COMPOSER_NO_INTERACTION: 1
+events:
+  build:
+    steps:
+      - name: Composer validate & install
+        script:
+          - composer validate --no-check-all
+          - composer install --no-progress --prefer-dist
+      - name: Lint PHP
+        script:
+          - find web/modules custom modules -name "*.php" -print0 | xargs -0 -r -n1 php -l
+      - name: Static analysis (phpstan, optional)
+        script:
+          - vendor/bin/phpstan analyse --error-format=table || true
+      - name: Code style (phpcs, optional)
+        script:
+          - vendor/bin/phpcs --standard=Drupal,DrupalPractice web/modules/custom || true
+      - name: Export config and check diff (if site available)
+        script:
+          - if [ -f web/sites/default/settings.php ]; then vendor/bin/drush cex -y || true; git diff --exit-code || (echo "Config changed. Commit config export." && exit 1); fi
+      - name: Lighthouse smoke (optional)
+        script:
+          - npm i -g @lhci/cli || true
+          - lhci collect --url="https://example.com" || true
+  deploy:
+    steps:
+      - name: Placeholder deploy
+        script:
+          - echo "Deploy handled by Acquia pipelines hooks / Cloud UI."

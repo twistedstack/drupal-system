@@ -1,0 +1,13 @@
+
+author_override_default.settings:
+  type: config_object
+  label: 'Author Override Default settings'
+  mapping:
+    field_name:
+      type: string
+      label: 'User reference field machine name'
+    bundles:
+      type: sequence
+      label: 'Content types (bundles) to apply to; empty = all'
+      sequence:
+        type: string

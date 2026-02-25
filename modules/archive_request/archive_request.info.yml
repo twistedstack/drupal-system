@@ -1,0 +1,7 @@
+name: 'Archive Request'
+type: module
+description: 'Allows authorized roles to flag content for archive review and provides an admin dashboard of requests.'
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - node

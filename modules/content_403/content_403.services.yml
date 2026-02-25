@@ -1,0 +1,8 @@
+services:
+  content_403.access_denied_subscriber:
+    class: Drupal\content_403\EventSubscriber\ContentAccessDeniedSubscriber
+    arguments:
+      - '@renderer'
+      - '@current_route_match'
+    tags:
+      - { name: event_subscriber }

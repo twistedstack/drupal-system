@@ -1,0 +1,6 @@
+author_override.settings:
+  title: 'Author Override'
+  description: 'Configure Author Override behavior.'
+  route_name: author_override.settings
+  parent: system.admin_config_content
+  weight: 100

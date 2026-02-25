@@ -1,0 +1,13 @@
+auto_archive_plus.settings:
+  title: 'Auto Archive+'
+  description: 'Configure automatic archival of content with advanced options.'
+  route_name: auto_archive_plus.settings
+  parent: system.admin_content
+  weight: 100
+
+auto_archive_plus.log:
+  title: 'Auto Archive Log'
+  description: 'View log of auto-archived nodes.'
+  route_name: auto_archive_plus.log
+  parent: system.admin_content
+  weight: 110

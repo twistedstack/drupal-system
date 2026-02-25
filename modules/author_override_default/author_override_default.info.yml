@@ -1,0 +1,8 @@
+
+name: Author Override Default
+type: module
+description: "Defaults a chosen user reference field to the logged-in user if empty. Bundle-scopable via config."
+package: Custom
+core_version_requirement: ^10 || ^11
+version: 2.0.0
+configure: author_override_default.settings

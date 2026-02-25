@@ -1,0 +1,30 @@
+# .github/workflows/drupal-ci.yml
+name: Drupal CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer, phpstan, phpcs
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist
+      - name: PHP lint
+        run: |
+          find web/modules -name "*.php" -print0 | xargs -0 -r -n1 php -l
+      - name: PHPStan (optional)
+        run: vendor/bin/phpstan analyse --error-format=table || true
+      - name: PHPCS (optional)
+        run: vendor/bin/phpcs --standard=Drupal,DrupalPractice web/modules/custom || true
+      - name: Lighthouse smoke (optional)
+        run: |
+          npm i -g @lhci/cli
+          lhci collect --url="https://example.com" || true

@@ -1,0 +1,7 @@
+name: 'Dynamic Admin Block Starter'
+type: module
+description: 'Starter module for dynamic, role-aware admin dashboard blocks.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - node

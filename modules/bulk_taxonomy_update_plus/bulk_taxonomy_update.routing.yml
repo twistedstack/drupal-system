@@ -1,0 +1,7 @@
+bulk_taxonomy_update.form:
+  path: '/admin/content/bulk-taxonomy-update'
+  defaults:
+    _form: '\Drupal\bulk_taxonomy_update\Form\BulkTermUpdateForm'
+    _title: 'Bulk Taxonomy Update'
+  requirements:
+    _permission: 'administer bulk taxonomy update'

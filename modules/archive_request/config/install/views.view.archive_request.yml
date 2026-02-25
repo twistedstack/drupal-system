@@ -1,0 +1,76 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.article
+  module:
+    - node
+    - views
+id: archive_request
+label: 'Archive Requests'
+module: views
+description: 'Shows content flagged for archive.'
+tag: ''
+base_table: node_field_data
+core_version_requirement: ^10 || ^11
+display:
+  page_1:
+    display_plugin: page
+    id: page_1
+    display_title: 'Archive Requests Page'
+    position: 0
+    display_options:
+      path: 'admin/dashboard/archive-requests'
+      menu:
+        type: normal
+        title: 'Archive Requests'
+        description: ''
+        weight: 0
+        name: admin
+      access:
+        type: permission
+        options:
+          permission: 'request archive content'
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          value: '1'
+          provider: node
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          value:
+            - article
+          provider: node
+        field_archive_request_value:
+          id: field_archive_request_value
+          table: node__field_archive_request
+          field: field_archive_request_value
+          value: '1'
+          provider: null
+      fields:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          label: 'Title'
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          label: 'Content Type'
+        changed:
+          id: changed
+          table: node_field_data
+          field: changed
+          label: 'Updated'
+          date_format: 'medium'
+      sort:
+        changed:
+          id: changed
+          table: node_field_data
+          field: changed
+          order: DESC

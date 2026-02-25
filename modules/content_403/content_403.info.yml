@@ -1,0 +1,9 @@
+name:   Content 403 Handler
+type:   module
+description: >
+  Replaces the 403 page for unpublished or archived nodes with a custom template.
+package: Custom
+core_version_requirement: ^10
+dependencies:
+  - drupal:node
+  - drupal:content_moderation

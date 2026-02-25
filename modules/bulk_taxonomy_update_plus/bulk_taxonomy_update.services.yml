@@ -1,0 +1,8 @@
+services:
+  bulk_taxonomy_update.updater:
+    class: 'Drupal\bulk_taxonomy_update\Service\BulkUpdater'
+    arguments: ['@entity_type.manager', '@logger.channel.bulk_taxonomy_update']
+  logger.channel.bulk_taxonomy_update:
+    class: Drupal\Core\Logger\LoggerChannel
+    factory: ['@logger.factory', 'get']
+    arguments: ['bulk_taxonomy_update']

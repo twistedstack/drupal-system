@@ -1,0 +1,8 @@
+name: Custom Toolbar
+type: module
+description: 'Provides a lightweight role-based tabbed toolbar similar to Workbench.'
+core_version_requirement: ^10.5.2 || ^11
+package: Administration
+dependencies:
+  - drupal:toolbar
+  - drupal:user

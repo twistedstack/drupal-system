@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Custom Toolbar module.
+ */
+
+/**
+ * Implements hook_toolbar().
+ *
+ * Adds a top-level "Workbench+" tab in the toolbar.
+ */
+function custom_toolbar_toolbar() {
+  $items = [];
+
+  $items['custom_toolbar'] = [
+    '#type' => 'toolbar_item',
+    'tab' => [
+      '#type' => 'link',
+      '#title' => t('Workbench+'),
+      '#url' => \Drupal\Core\Url::fromRoute('custom_toolbar.dashboard'),
+      '#attributes' => [
+        'title' => t('Custom role-based toolbar'),
+        'class' => ['toolbar-icon', 'toolbar-icon-system-admin-content'],
+      ],
+    ],
+    '#weight' => 100,
+  ];
+
+  return $items;
+}

@@ -1,0 +1,4 @@
+administer bulk taxonomy update:
+  title: 'Administer Bulk Taxonomy Update'
+  description: 'Access the Bulk Taxonomy Update UI and run batch updates.'
+  restrict access: true

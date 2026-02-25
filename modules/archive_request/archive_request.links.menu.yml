@@ -1,0 +1,6 @@
+archive_request.dashboard_link:
+  title: 'Archive Requests'
+  description: 'View content flagged for archive.'
+  parent: system.admin_content
+  route_name: archive_request.dashboard
+  weight: 10

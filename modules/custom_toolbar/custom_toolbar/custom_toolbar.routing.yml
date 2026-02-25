@@ -1,0 +1,31 @@
+custom_toolbar.dashboard:
+  path: '/dashboard'
+  defaults:
+    _controller: '\Drupal\custom_toolbar\Controller\DashboardController::overview'
+    _title: 'Dashboard'
+  requirements:
+    _permission: 'access content'
+
+custom_toolbar.dashboard.drafts:
+  path: '/dashboard/drafts'
+  defaults:
+    _controller: '\Drupal\custom_toolbar\Controller\DashboardController::drafts'
+    _title: 'My Drafts'
+  requirements:
+    _permission: 'create content'
+
+custom_toolbar.dashboard.review:
+  path: '/dashboard/review'
+  defaults:
+    _controller: '\Drupal\custom_toolbar\Controller\DashboardController::review'
+    _title: 'For Review'
+  requirements:
+    _permission: 'review content'
+
+custom_toolbar.dashboard.archive:
+  path: '/dashboard/archive'
+  defaults:
+    _controller: '\Drupal\custom_toolbar\Controller\DashboardController::archive'
+    _title: 'Archive Requests'
+  requirements:
+    _permission: 'request archive content'
